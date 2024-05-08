@@ -1,3 +1,3 @@
-# JavaStudyGuide
+# JavaInterviewGuide
 
-java study guide
+java interview guide
