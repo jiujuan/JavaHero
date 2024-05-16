@@ -157,7 +157,7 @@ public @interface Country {
 ```
 #### @Documented
 
->@Documented：用 @Documented 注解标记的元素，Javadoc 工具会将此注解标记元素的注解信息包含在 javadoc 中。
+>@Documented：用 @Documented 注解标记的元素，Javadoc 工具会将此注解标记的注解信息包含在 javadoc 中。
 
 例子：
 ```Java
