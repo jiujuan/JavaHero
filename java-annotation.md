@@ -59,6 +59,11 @@ Java 中的元注解：
 - `@Documented`
 - `@Inherited`
 - `@Repeatable`（JDK1.8 引入）
+
+java.lang.annotation.Annotation 是所有注解类型的通用接口， 元注解与它的关系图：
+![image](https://img2024.cnblogs.com/blog/650581/202405/650581-20240516183633073-1730329444.png)
+
+
 #### @Target
 
 >@Target：用来标记其它注解，限制此注解修饰的元素类型，也就是被`@Target`修饰的注解适用范围。如类、方法、字段等。
@@ -188,7 +193,7 @@ public class DocumentAnnotation {}
 上面代码用 javadoc 工具可以生成 @Book 注解信息。
 #### @Inherited
 
->@Inherited：用 @Inherited 标记的注解将具有继承性。 如果某个类使用了 @Inherited 标记的注解，则其子类自动获得该注解。
+>@Inherited：用 @Inherited 标记的注解将具有继承性。 如果某个类使用了 @Inherited 标记的注解，则其子类自动继承父类定义的注解。
 
 
 例子，定义一个注解：
