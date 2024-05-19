@@ -318,8 +318,280 @@ class AnnotationDemoTwo extends AnnotationDemoOne {
 	} 
 }
 ```
+
 ### 自定义注解
 
-## 参考
+#### 自定义注解
 
-- java基础学习：java中的反射详解和使用实践 https://www.cnblogs.com/jiujuan/p/16659488.html
+> 自定义注解，用 Java 给出的关键字 `@interface` 来定义，它也属于一种类型。就象在 Java 中定义类用 `Class` 关键字，只不过注解可以标记或修饰 Java 中各种元素。
+> 注解默认继承了 `java.lang.annotation.Annotation` 接口。
+
+用关键字 `@interface` 声明一个自定义注解，语法格式为：
+```Java
+[Access Modifier] @interface <Annotation name> { 
+    <Type> <Method name>() [default value]; 
+}
+```
+
+定义注解的一些规则：
+- 方法的返回值不受限制，可以是任意类型
+- 方法的默认返回值是可选的，可以有，也可以没有
+- 定义注解时可以使用元注解
+- 注解的方法不能有参数和异常签名（throws）
+
+例子，定义一个注解：
+```Java
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DemoAnno {}
+```
+例子说明：
+>上面代码中定义了一个名为 `DemoAnno` 的注解，
+>`@Target({ElementType.FIELD, ElementType.PARAMETER})` 表示 `DemoAnno` 可以在类成员或方法参数上修饰
+>`@Retention(RetentionPolicy.RUNTIME)` 在运行时起作用
+
+上面的注解 `DemoAnno` 是一个没有属性的注解。
+
+#### 注解的属性
+
+注解属性语法格式：
+```Java
+[访问级别修饰符] [数据类型] 名称() default 默认值;
+```
+说明：
+- 访问修饰符只能是 `public` 或默认(不指定访问级别修饰符)
+- 数据类型有限制，支持如下数据类型：
+   - 所有基本数据类型（byte、char、short、int、long、float、double、boolean）
+   - String 类型
+   - enum 类型
+   - Annotation 类型
+   - Class 类
+   - 以上所有类型数组
+- default 可以设置默认值，也可以没有 default
+
+> 如果注解中只有一个属性值，最好将属性名命名为 `value` 。因为，指定属性名为 `value`，在使用注解时，指定 value 的值时可以不指定属性名称。
+> 如：`@TestPerson("Tom")` ，与  `@TestPerson(value = "Tom")` 效果相同。
+
+示例：
+```Java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DemoAnnotation {
+    String name() default "defaultName";
+    public MethodTypeEnum type() default MethodTypeEnum.TYPE1;
+}
+
+public enum MethodTypeEnum {
+    TYPE1, TYPE2
+}
+```
+说明：
+>上面代码中定义了一个名为 `DemoAnnotation` 的注解。
+>`@Target(ElementType.METHOD)` 表示 `DemoAnnotation` 用来修饰方法的。
+>`@Retention(RetentionPolicy.RUNTIME)` 表示在运行时起作用。
+>`DemoAnnotation` 注解有 2 个属性，分别为 `name()` 和 `type()`，其中 `type()` 数据类型是 enum 类型。
+
+## 四、注解处理器
+
+自定义好了一种注解，怎么获取注解中的内容？怎么让自定义注解发挥作用？
+
+### AnnotatedElement 接口说明
+
+Java 使用 `java.lang.annotation.Annotation` 接口来代表元素上的注解，该接口是所有注解类型的父接口。除此之外，在 Java 中还有一个注解处理器接口 `java.lang.reflect.AnnotatedElement` ，它提供了一组方法，用于获取注解的信息。
+![image](https://img2024.cnblogs.com/blog/650581/202405/650581-20240519173330949-322277097.png)
+
+`AnnotatedElement` 接口代表当前在虚拟机中运行程序的注解元素。此接口允许以反射方式读取注解元素的信息，下列类都实现了该接口：
+```java
+java.lang.Class  
+java.lang.Package  
+java.lang.reflect.Field  
+java.lang.reflect.Method  
+java.lang.reflect.Constructor  
+java.lang.reflect.Parameter
+```
+- `Class` - 类定义
+- `Constructor` - 构造器定义
+- `Field` - 类的成员变量定义
+- `Method` - 类的方法定义
+- `Package` - 类的包定义
+
+`AnnotatedElement` 接口方法：
+
+![image](https://img2024.cnblogs.com/blog/650581/202405/650581-20240519173412673-1906962991.png)
+
+- `getAnnotation(Class<T> annotationClass)` ：返回程序元素上指定类型的注解，如果注解不存在，则返回 null。
+- `getAnnotations()`：返回程序元素上存在的所有注解，如果注解不存在，则返回长度为 0 的数组。
+- `getAnnotationsByType(Class<T> annotationClass)`：返回程序元素上指定类型的所有注解，包括重复的注解和继承的注解，如果注解不存在，则返回长度为 0 的数组。
+- `isAnnotationPresent(Class<?extends Annotation> annotationClass)`：判断程序元素上是否存在某个指定类型的注解，存在则返回 true，否则返回 false。
+- `getDeclaredAnnotation(Class<T> annotationClass)`：返回程序元素上指定类型的直接注解，如果注解不存在，则返回 null。此方法忽略父类的注解。
+- `getDeclaredAnnotations()`：返回程序元素上指定类型的所有注解，如果注解不存在，则返回长度为 0 的数组。此方法忽略父类的注解。
+- `getDeclaredAnnotationsByType(Class<T> annotationClass)`：返回程序元素上指定类型的所有注解，此方法忽略父类的注解。
+
+### 几个例子
+
+例子 1：
+```Java
+@Deprecated
+public class MyClass {
+
+}
+
+@SuppressWarnings("unchecked")
+public class MySubClass extends MyClass {
+
+}
+
+AnnotatedElement element = MySubClass.class;
+Annotation[] annotations = element.getDeclaredAnnotations();
+for (Annotation annotation : annotations) {
+    System.out.println(annotation);
+}
+
+// 输出只包含 @SuppressWarnings，因为 @Deprecated 是从父类继承的
+```
+
+例子 2：
+```Java
+@Repeatable(MyAnnotations.class)
+@interface MyAnnotation {
+    String value();
+}
+
+@MyAnnotation("test1")
+@MyAnnotation("test2")
+public class MyClass {
+}
+
+AnnotatedElement element = MyClass.class;
+MyAnnotation[] annotations = element.getAnnotationsByType(MyAnnotation.class);
+for (MyAnnotation annotation : annotations) {
+    System.out.println(annotation.value());
+}
+
+// 输出 "test1" 和 "test2"
+```
+
+例子 3：
+```Java
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+
+@Deprecated
+@SuppressWarnings("unchecked")
+public class MyClass {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        AnnotatedElement element = MyClass.class;
+
+        // 检查 @Deprecated 注解是否存在
+        if (element.isAnnotationPresent(Deprecated.class)) {
+            System.out.println("@Deprecated annotation is present on MyClass.");
+        }
+
+        // 检查 @SuppressWarnings 注解是否存在
+        if (element.isAnnotationPresent(SuppressWarnings.class)) {
+            System.out.println("@SuppressWarnings annotation is present on MyClass.");
+        }
+
+        // 检查一个不存在的注解
+        if (!element.isAnnotationPresent(Override.class)) {
+            System.out.println("@Override annotation is not present on MyClass.");
+        }
+    }
+}
+
+/* 
+output：
+
+@Deprecated annotation is present on MyClass. 
+@SuppressWarnings annotation is present on MyClass. 
+@Override annotation is not present on MyClass.
+
+*/
+
+```
+
+综合例子 4:
+```Java
+import java.lang.annotation.*;
+import java.lang.reflect.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Repeatable(MyAnnotations.class)
+@interface MyAnnotation {
+    String value();
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@interface MyAnnotations {
+    MyAnnotation[] value();
+}
+
+@MyAnnotation("annotation1")
+@MyAnnotation("annotation2")
+@Deprecated
+@SuppressWarnings("unchecked")
+public class ExampleClass {
+}
+
+public class AnnotatedElementExample {
+    public static void main(String[] args) {
+        AnnotatedElement element = ExampleClass.class;
+
+        // getAnnotation
+        Deprecated deprecated = element.getAnnotation(Deprecated.class);
+        System.out.println("@Deprecated: " + (deprecated != null));
+
+        // getAnnotations
+        Annotation[] annotations = element.getAnnotations();
+        System.out.println("All annotations:");
+        for (Annotation annotation : annotations) {
+            System.out.println(annotation);
+        }
+
+        // getDeclaredAnnotations
+        Annotation[] declaredAnnotations = element.getDeclaredAnnotations();
+        System.out.println("Declared annotations:");
+        for (Annotation annotation : declaredAnnotations) {
+            System.out.println(annotation);
+        }
+
+        // getAnnotationsByType
+        MyAnnotation[] myAnnotations = element.getAnnotationsByType(MyAnnotation.class);
+        System.out.println("MyAnnotation annotations:");
+        for (MyAnnotation myAnnotation : myAnnotations) {
+            System.out.println(myAnnotation.value());
+        }
+
+        // getDeclaredAnnotation
+        SuppressWarnings suppressWarnings = element.getDeclaredAnnotation(SuppressWarnings.class);
+        System.out.println("@SuppressWarnings: " + (suppressWarnings != null));
+
+        // getDeclaredAnnotationsByType
+        MyAnnotation[] declaredMyAnnotations = element.getDeclaredAnnotationsByType(MyAnnotation.class);
+        System.out.println("Declared MyAnnotation annotations:");
+        for (MyAnnotation myAnnotation : declaredMyAnnotations) {
+            System.out.println(myAnnotation.value());
+        }
+
+        // isAnnotationPresent
+        boolean isDeprecatedPresent = element.isAnnotationPresent(Deprecated.class);
+        System.out.println("@Deprecated present: " + isDeprecatedPresent);
+    }
+}
+```
+## 五、参考
+
+-  https://www.cnblogs.com/peida/archive/2013/04/24/3036689.html   熵减黑客，深入理解Java：注解（Annotation）自定义注解入门
+-   https://www.cnblogs.com/springmorning/p/10261472.html 编程老司机，JavaSE基础：@Document元注解的使用
+- https://docs.oracle.com/javase/tutorial/java/annotations/ Oracle 官方注解学习文档
+- https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html  java 内置注解
+
+- https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html java.lang.annotation.Annotation 接口 API 文档
+- https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html java.lang.reflect.AnnotatedElement 接口 API 文档
+- https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html#getAnnotations
+-  https://www.cnblogs.com/jiujuan/p/16659488.html  java基础学习：java中的反射详解和使用实践
