@@ -341,10 +341,18 @@ class AnnotationDemoTwo extends AnnotationDemoOne {
 
 例子，定义一个注解：
 ```Java
+// 定义一个简单的注解类型
+public @interface DemoAnno {
+
+}
+```
+
+```Java
+// 定义一个复杂些的注解类型
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DemoAnno {}
-```
+
 例子说明：
 >上面代码中定义了一个名为 `DemoAnno` 的注解，
 >`@Target({ElementType.FIELD, ElementType.PARAMETER})` 表示 `DemoAnno` 可以在类成员或方法参数上修饰
