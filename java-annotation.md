@@ -632,6 +632,10 @@ public class AnnotatedElementExample {
     }
 }
 ```
+
+## 注解的应用例子
+
+
 ## 五、参考
 
 -  https://www.cnblogs.com/peida/archive/2013/04/24/3036689.html   熵减黑客，深入理解Java：注解（Annotation）自定义注解入门
