@@ -633,8 +633,8 @@ public class AnnotatedElementExample {
 }
 ```
 
-## 注解的应用例子
-
+## 注解的应用小例子
+用注解实现一个依赖注入框架
 
 ## 五、参考
 
