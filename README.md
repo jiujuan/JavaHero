@@ -1,5 +1,5 @@
 # JavaHero 简介
-java语言特性学习，java 学习指南，Java 学习路线图，做 java 的 hero
+java 语言基础语法特性学习，java 学习指南，Java 学习路线图，做 java 的 hero
 
 # Java 语言特性
 
