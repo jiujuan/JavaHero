@@ -633,10 +633,131 @@ public class AnnotatedElementExample {
 }
 ```
 
-## 注解的应用小例子
-用注解实现一个依赖注入框架
+## 五、注解的应用小例子
+用注解实现一个简单的依赖注入框架。
 
-## 五、参考
+先来看看项目目录结构，如下图：
+
+![image](https://github.com/jiujuan/JavaHero/assets/45460739/a24c407f-102f-493f-a64f-06cad907bc41)
+
+- 第一步：编写 annotations/Inject.java
+```Java
+package com.jiujuan.demo.annotations;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Inject {
+
+}
+```
+
+- 第二步：编写 services/ServiceOne.java，ServiceTwo.java
+
+ServiceOne.java
+```Java
+package com.jiujuan.demo.services;
+
+public class ServiceOne {
+    public void execute(){
+        System.out.println("ServiceOne is excuting...");
+    }
+}
+```
+
+ServiceTwo.java
+```Java
+package com.jiujuan.demo.services;
+
+public class ServiceTwo {
+    public void execute(){
+        System.out.println("ServiceTwo is executing...");
+    }
+}
+```
+
+- 第三步：编写 di/DependencyInjector.java
+
+```Java
+package com.jiujuan.demo.di;
+
+import com.jiujuan.demo.annotations.Inject;
+
+import java.lang.reflect.Field;
+
+public class DependencyInjector {
+    public void injectDependencies(Object target) {
+        Class<?> clazz = target.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Inject.class)) {
+                boolean accessible = field.isAccessible();
+                field.setAccessible(true);
+
+                try {
+                    Object service = field.getType().newInstance();
+                    field.set(target, service);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                field.setAccessible(accessible);
+            }
+        }
+    }
+}
+```
+
+- 第四步：编写 client/Client.java
+
+```Java
+package com.jiujuan.demo.client;
+
+import com.jiujuan.demo.annotations.Inject;
+import com.jiujuan.demo.services.ServiceOne;
+import com.jiujuan.demo.services.ServiceTwo;
+
+public class Client {
+    @Inject
+    private ServiceOne serviceOne;
+
+    @Inject
+    private ServiceTwo serviceTwo;
+
+    public void Actions(){
+        serviceOne.execute();
+        serviceTwo.execute();
+    }
+}
+```
+
+- 第五步：编写 Main.java
+
+```Java
+package com.jiujuan.demo;
+
+import com.jiujuan.demo.client.Client;
+import com.jiujuan.demo.di.DependencyInjector;
+
+public class Main {
+    public static void main(String[] args) {
+        Client client = new Client();
+        DependencyInjector injector = new DependencyInjector();
+        injector.injectDependencies(client);
+        client.Actions();
+    }
+}
+```
+
+- 最后 运行输出
+
+```Java
+ServiceOne is excuting...
+ServiceTwo is executing...
+```
+
+## 六、参考
 
 -  https://www.cnblogs.com/peida/archive/2013/04/24/3036689.html   熵减黑客，深入理解Java：注解（Annotation）自定义注解入门
 -   https://www.cnblogs.com/springmorning/p/10261472.html 编程老司机，JavaSE基础：@Document元注解的使用
