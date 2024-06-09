@@ -270,9 +270,18 @@ OrderedPair<String, Box<Integer>> p = new OrderedPair<>("primes", new Box<Intege
 
 - **无限定类型通配符（Unbounded Wildcard）**：也叫无界通配符，匹配任意类型通配符。比如 `List<?>`。
 - **有限定类型通配符（Bounded Wildcard）**：使用 `extends` or `super` 和具体类或接口来限定通配符所能匹配的类型范围。
-    - **上边界通配符**：泛型参数限制在本类型或它的子类型。比如这个 `<? extends Number>` 表示参数可以是 Number（上边界）类型或 Number 的子类类型。
+    - **上边界通配符**：**泛型参数限制在本类型或它的子类型**。比如这个 `<? extends Number>` 表示参数可以是 Number（上边界）类型或 Number 的子类类型。
     比如一个方法中接收的泛型对象中只能是数字（Byte、Short、Long、Integer、Float、Double），在定义方法参数时，可以这样定义 `<? extends Number>`， `public void myMethod(List<? extends Number> myList) {}`。
-    - **下边界通配符**：泛型参数限制在本类型或父类型。如 `<? super Integer>`，表示参数可以是 Number 类型或 Number 的父类类型。
+    - **下边界通配符**：**泛型参数限制在本类型或父类型**。如 `<? super Integer>`，表示参数可以是 Number 类型或 Number 的父类类型。
+
+上边界，`<? extends Number>` 图示：
+
+![image](https://github.com/jiujuan/JavaHero/assets/45460739/c077ba47-ca6b-417a-90b2-882d5959f0b9)
+
+下边界，`<? super Integer>` 图示，绿色打勾是可以传入的数据类型：
+
+![image](https://github.com/jiujuan/JavaHero/assets/45460739/b2c51733-cbd0-4b2f-a8ed-bee36d7c00d5)
+
 
 上边界通配符例子：
 ```Java
@@ -323,8 +332,8 @@ public class GenericsDemo {
 
 总结：
 - `<?>` 无限制类型通配符
-- `<? extends E>，extends` 关键字声明了泛型类型的上界，可以表示本类型，或此类型的子类
-- `<? super E>，super` 关键字声明了类型的下界，可以表示本类型，或此类型的父类
+- `<? extends E>，extends` 关键字声明了泛型类型的上边界，可以表示本类型，或此类型的子类
+- `<? super E>，super` 关键字声明了类型的下边界，可以表示本类型，或此类型的父类
 
 #### 泛型类型参数上下界
 
