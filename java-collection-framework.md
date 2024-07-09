@@ -59,3 +59,101 @@ Map 集合层次结构简图：
 ![image](https://github.com/jiujuan/JavaHero/assets/45460739/6b437585-4021-4173-832d-267273c522be)
 
 Java 集合常用的实现类有：ArrayList、LinkedList、ArrayDeque、PriorityQueue、HashSet、LinkedHashSet、TreeSet、HashMap、TreeMap、HashTable。
+
+## List接口常用实现类
+
+### ArrayList概述
+
+ArrayList 实现了 List 接口，它是一个动态数组。
+什么叫动态数组？第一它的底层数据结构是一个数组 array 实现，它是顺序存储；第二它可以动态扩容。每个 ArrayList 有一个 capacity 容量，表示底层数组的容量大小，默认值为10，ArrayList 容器内存储的元素个数（size）不能大于 capacity 容量，当增加数据元素个数 size 超过 capacity 容量时，ArrayList 容器会自动扩容容量大小。
+
+![image](https://github.com/jiujuan/JavaHero/assets/45460739/35eb144a-c864-4296-9ef6-7403b8302bbb)
+
+
+### ArrayList优缺点
+
+ArrayList 一些特性，因为它底层数据结构是一个数组，所以它具备数组的特性：
+**优点**：
+- 根据数组索引访问数据元素数据访问效率高、可随机获取数据。
+- 可动态扩容容量大小，数组 array 是固定大小。数据量大时扩容效率也低。
+- 允许存储 Null 值。
+**缺点**：
+- 频繁增加、删除数据元素的效率低，因为要移动数据元素。数组 array 也有这个缺点。
+- ArrayList 是线程不安全。
+- 允许存储 Null 值，但要小心处理，以免后续操作中引发空指针异常。
+
+### ArrayList优缺点
+
+ArrayList 一些特性，因为它底层数据结构是一个数组，所以它具备数组的特性：
+**优点**：
+- 根据数组索引访问数据元素数据访问效率高、可随机获取数据。
+- 可动态扩容容量大小，数组 array 是固定大小。数据量大时扩容效率也低。
+- 允许存储 Null 值。
+**缺点**：
+- 频繁增加、删除数据元素的效率低，因为要移动数据元素。数组 array 也有这个缺点。
+- ArrayList 是线程不安全。
+- 允许存储 Null 值，但要小心处理，以免后续操作中引发空指针异常。
+
+### ArrayList方法
+
+ArrayList 方法集文档：
+- [https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)。
+
+下面是 ArrayList 部分方法截图：
+
+![image](https://github.com/jiujuan/JavaHero/assets/45460739/92fb27f4-6b48-4f12-bb41-c64cc720efb6)
+
+
+**ArrayList 方法使用例子**：
+ArrayList 是一个动态数组，提供了添加、删除、修改、遍历、截取等功能。
+
+```Java
+import java.util.*;
+
+public class ArrayListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+
+        // 增加
+        list.add("苹果");
+        list.add("apple");
+        list.add("香蕉");
+        list.add("orange");
+
+        // 计算array size大小
+        System.out.println(list.size());
+		// 计算元素索引
+        System.out.print(list.indexOf("apple"));
+		// 截取
+        System.out.println(list.subList(0, 2));
+
+        // 遍历
+        for (String str : list) {
+            System.out.println(str);
+        }
+
+        // 迭代器遍历
+        Iterator<String> ite = list.iterator();
+        while (ite.hasNext()) {
+            System.out.println(ite.next());
+        }
+
+        // 修改
+        list.set(1, "橘子");
+
+        // 删除
+        //list.remove(0);
+
+        // 排序
+        ArrayList<String> names = new ArrayList<String>();
+        names.add("Tom");
+        names.add("Jimmy");
+        names.add("Lily");
+        Collections.sort(names);
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+```
+
