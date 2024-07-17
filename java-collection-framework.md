@@ -150,3 +150,86 @@ public class ArrayListDemo {
 }
 ```
 
+### LinkedList概述
+
+LinkedList 实现了 List 接口和 Deque 接口，它是一个顺序结构容器，也可以看作是一个队列 (Queue)，这个也可以当作栈 Stack 使用，Java 原先有个 Stack（栈） 类，官方已经不建议使用了。现在 Java 有了 ArrayDeque，它比 LinkedList 当作栈或队列使用时有更好的性能。
+
+LinkedList 底层数据结构是一个双向链表，它的结构图如下：
+
+![image](https://github.com/user-attachments/assets/0804d434-0138-491d-95f3-9aad380f29a2)
+
+> **first**：指向第一个节点
+> **last**：指向最后一个节点
+
+### LinkedList优缺点
+
+LinkedList 底层数据结构是一个双向链表结构，它具备链表的一些特性：
+
+**优点**：
+- 增加、删除数据元素效率高，比 ArrayList 增加、删除效率高。
+**缺点**：
+- 数据量大访问链表中间数据元素效率低，因为需要遍历链表查找元素。
+- LinkedList 是线程不安全的。
+
+如果多个线程同时访问一个链表，并且至少有一个线程在结构上修改了链表，则必须进行外部同步，可以用 `Collections.synchronizedList`：
+```Java
+List list = Collections.synchronizedList(new LinkedList(...));
+```
+
+### LinkedList方法
+
+LinkedList 方法文档：
+- [https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html)。
+
+LinkedList 部分方法截图：
+
+![image](https://github.com/user-attachments/assets/3dfddddf-0cd2-484b-bf44-e197f2c0e7f5)
+
+
+**LinkedList 方法使用例子**：
+```Java
+import java.util.*;
+
+public class LinkedListDemo {
+    public static void main(String[] args) {
+        LinkedList<String> names = new LinkedList<>();
+
+        names.add("Tom");
+        names.add("Jimmy");
+        names.add("Lily");
+        names.add("Lisa");
+
+        // 指定位置插入元素
+        names.add(3, "Tomosn");
+
+        // 遍历
+        for (int i=0; i<names.size(); i++) {
+            System.out.println(names.get(i));
+        }
+
+        // for-each 迭代遍历
+        for (String name : names) {
+            System.out.println(name);
+        }
+
+        // 头部增加数据元素
+        names.addFirst("Jojo");
+
+        // 尾部增加数据元素
+        names.addLast("Zozo");
+
+        System.out.println(names);
+
+        // 删除
+        // names.remove(2);
+
+        // 修改指定位置元素
+        names.set(0, "lilei");
+
+        //删除并返回列表中的第一个元素。
+        // names.removeFirst();
+    }
+}
+```
+
+
