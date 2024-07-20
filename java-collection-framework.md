@@ -233,4 +233,43 @@ public class LinkedListDemo {
 }
 ```
 
+## Map接口常用实现类
 
+Map 接口是采用键值对 Map<K, V> 映射接口，保存 key 到 value 的映射，key 不允许重复，key 可以为 null。
+
+Map 接口的方法集文档：
+- https://docs.oracle.com/javase/8/docs/api/java/util/Map.html
+
+Map 接口方法：
+```Java
+abstract void                 clear()
+abstract boolean              containsKey(Object key)
+abstract boolean              containsValue(Object value)
+abstract Set<Entry<K, V>>     entrySet()
+abstract boolean              equals(Object object)
+abstract V                    get(Object key)
+abstract int                  hashCode()
+abstract boolean              isEmpty()
+abstract Set<K>               keySet()
+abstract V                    put(K key, V value)
+abstract void                 putAll(Map<? extends K, ? extends V> map)
+abstract V                    remove(Object key)
+abstract int                  size()
+abstract Collection<V>        values()
+```
+
+### HashMap概述
+
+HashMap 类实现了 Map 接口。HashMap 底层数据结构是用 数组 + 链表 + 红黑树（JDK1.8） 三种数据结构结合实现的。 
+
+> JDK1.8 中引入红黑树优化过长的链表。
+
+
+HashMap增加数据元素时，会用哈希算法计算 key 的值，这个值就是哈希值，然后再把哈希值转换为数组的索引。HashMap 不会记录插入数据元素的顺序。
+>HashFunc(key) -> 哈希值
+
+添加数据时候出现冲突咋办？HashMap 采用链表法来解决冲突问题。当链表的长度大于阙值（阙值默认为 8）时，会将链表转化为红黑树。
+
+HashMap 底层数据结构是 **数组 + 链表 + 红黑树（JDK1.8）**，示意图如下：
+
+![image](https://github.com/user-attachments/assets/cee8a5bc-76ba-4ab9-9704-054ceedf6e08)
