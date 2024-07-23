@@ -50,7 +50,7 @@ Java 提供一些预定义的类和接口，Java 所有的集合类都位于 jav
 
 JDK 还为集合的各种操作提供了 2 个工具类：Collections 和 Arrays。
 
-### 集合类层次结构
+### Collection集合类层次结构图：List、Queue、Set
 
 Collection 集合类的层次结构简图：
 ![image](https://github.com/jiujuan/JavaHero/assets/45460739/2a7955b1-4957-4113-a8a0-5f6fc03eb1f9)
