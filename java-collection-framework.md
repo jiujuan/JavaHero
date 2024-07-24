@@ -261,8 +261,8 @@ HashMap 类实现了 Map 接口。HashMap 底层数据结构是用 数组 + 链�
 
 > JDK1.8 中引入红黑树优化过长的链表。
 
-
 HashMap增加数据元素时，会用哈希算法计算 key 的值，这个值就是哈希值，然后再把哈希值转换为数组的索引。HashMap 不会记录插入数据元素的顺序。
+
 >HashFunc(key) -> 哈希值
 
 添加数据时候出现冲突咋办？HashMap 采用链表法来解决冲突问题。当链表的长度大于阙值（阙值默认为 8）时，会将链表转化为红黑树。
@@ -270,5 +270,72 @@ HashMap增加数据元素时，会用哈希算法计算 key 的值，这个值�
 HashMap 底层数据结构是 **数组 + 链表 + 红黑树（JDK1.8）**，示意图如下：
 
 ![image](https://github.com/user-attachments/assets/cee8a5bc-76ba-4ab9-9704-054ceedf6e08)
+
+### HashMap特性
+
+HashMap的底层数据结构较为复杂，由**数组+链表+红黑树**组成，所以具备这些数据结构的一些特性：
+它有几个关键属性：初始容量，负载因子，阈值
+
+- 插入、获取值的时间复杂度基本是 O(1)，能快速查找对应的值
+- 允许 key 和 value 为 null
+- HashMap 有一个初始容量和一个负载因子。初始容量是指哈希表的初始化容量大小，负载因子是指哈希表在扩容之前，可以存储的键值对数量与哈希表容量大小的比率。（默认的初始容量是 16，负载因子是 0.75）
+
+- HashMap 是无序的，且顺序会不定时改变
+- HashMap 是线程不安全的
+
+如果需要线程同步，一种是使用 Collections 集合：
+
+```Java
+Map m = Collections.synchronizedMap(new HashMap(...));
+```
+
+还有一种并发Map - ConcurrentHashMap，它用分段锁实现线程安全。
+
+HashTable 也是线程安全的， 不过它是一个遗留类，现在不应该使用它。
+HashTable 除了 key 和 value 不能为 null，其它和 HashMap 基本相同，
+
+### HashMap 方法
+
+HashMap 方法文档：
+- https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html Method Summary
+
+![image](https://github.com/user-attachments/assets/406eeada-40cc-4d13-a686-bf7d52d99794)
+
+代码例子：
+```Java
+// 引入 HashMap 类      
+import java.util.*;
+
+public class HashMapDemo {
+    public static void main(String[] args) {
+        HashMap<String, String> hashmap = new HashMap<String, String>();
+        
+        // 添加键值对
+        hashmap.put("gg", "Google");
+        hashmap.put("nametwo", "Tom");
+        hashmap.put("nameone", "Jimmy");
+       
+        // 输出 key 和 value
+        for (String k : hashmap.keySet()) {
+            System.out.println("key: " + k + " value: " + hashmap.get(k));
+        }
+  
+        for(String value: hashmap.values()) {
+          // 输出每一个value
+          System.out.println(value + ", ");
+        }
+		// 获取值 
+		String val1 = hashmap.get("gg");
+		// 修改值
+		hashmap.put("gg", "baidu");
+		String val2 = hashmap.get("gg");
+		// 删除值
+		hashmap.put("name3", "Leilei");
+		hashmap.remove("gg")
+		// 计算大小
+		System.out.println("size: " + hashmap.size());
+    }
+}
+```
 
 ## Set接口常用实现类
