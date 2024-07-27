@@ -339,3 +339,5 @@ public class HashMapDemo {
 ```
 
 ## Set接口常用实现类
+
+Set 不能重复
