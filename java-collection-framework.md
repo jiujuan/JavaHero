@@ -340,4 +340,75 @@ public class HashMapDemo {
 
 ## Set接口常用实现类
 
-Set 不能重复，hashset，tree
+Set 接口继承自 Collection 接口，Set 是一个无序集合，不允许存储重复元素。
+
+### HashSet概述
+
+HashSet 是基于 HashMap 实现也就是使用哈希表实现，它是对 HashMap 的一个简单封装。
+HashMap 是一个 key-value 的元素，key 是元素的键，value 是元素的值，通过 key 获取 value 值。HashSet 元素里只有 value 值的集合。
+
+特性：
+- 允许存储 null 值，不允许存储重复元素
+- 无序集合，不记录插入元素的顺序
+- 线程不安全
+
+HashSet 源码：
+HashSet 是由 HashMap 实现，看下面源码，HashMap 中的 value 值由一个固定的 Object 对象（PRESENT）填充，而键用于操作（add方法），也就是说 HashSet 中的值集合是用 HashMap 中的 key 实现。
+
+```Java
+public class HashSet<E>
+    extends AbstractSet<E>
+    implements Set<E>, Cloneable, java.io.Serializable
+{
+    private transient HashMap<E,Object> map;
+
+    // Dummy value to associate with an Object in the backing Map
+    private static final Object PRESENT = new Object();
+
+    public HashSet() {
+        map = new HashMap<>();
+    }
+
+    public boolean add(E e) {
+        return map.put(e, PRESENT)==null;
+    }
+
+    public boolean remove(Object o) {
+        return map.remove(o)==PRESENT;
+    }
+}
+```
+
+### HashSet 方法
+
+HashSet 方法文档：[https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html](https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html)
+
+```Java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class HashSetDemo {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("163.com");
+        sites.add("sohu.com");
+        sites.add("jd.com");
+        sites.add("taobao.com");
+        sites.add("163.com");     // 重复的元素不会被添加
+        for (String i : sites) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
+## Queue接口常用实现类
+
+
+
+## HashMap与HashSet的区别
+
+- HashMap 的元素是由 key-value 组成，key 用来标识元素，value 则是元素的实际值。而 HashSet 的元素是值的集合，只存储元素值，而不是 key-value 这样的键值对。
+- HashSet 中的元素是不允许重复的，HashSet 中的重复元素自动去重。而 HashMap 中的 key 不是唯一， value 允许重复，HashMap 采用链表法解决冲突值。
+- HashMap 通过 key 来获取 value，HashSet 存储唯一元素没有key。
+- HashSet 适合数据去重场景，还有交集、差集、并集运算场景
