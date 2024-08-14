@@ -338,6 +338,9 @@ public class HashMapDemo {
 }
 ```
 
+### TreeMap概述
+从集合类的层次结构图可以看出，TreeMap 实现了 SortedMap 接口，它可以按键的自然顺序或指定比较器的顺序进行排序，保证元素的插入顺序，底层数据结构是使用红黑树实现排序。
+
 ## Set接口常用实现类
 
 Set 接口继承自 Collection 接口，Set 是一个无序集合，不允许存储重复元素。
