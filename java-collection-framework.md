@@ -344,7 +344,7 @@ public class HashMapDemo {
 
 ### LinkedHashMap概述
 
-LinkedHashMap 是 HashMap 结合了链表的功能，使得 HashMap 插入元素变得有序，HashMap 中的元素是无序的。
+LinkedHashMap 是 HashMap 结合了链表的功能，使得 LinkedHashMap 插入元素变得有序，而 HashMap 中的元素是无序的。
 
 ## Set接口常用实现类
 
