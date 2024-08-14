@@ -412,7 +412,7 @@ public class HashSetDemo {
 
 ### LinkedHashSet概述
 
-LinkedHashSet 继承自 HashSet，它是由 LinkedHashMap 实现。与 HashSet 最大不同是，它使用链表维护了元素的插入顺序，而 HashSet 插入元素是无序的。
+LinkedHashSet 继承自 HashSet，它由 LinkedHashMap 实现。与 HashSet 最大区别是，它用链表使了插入的元素有序，而 HashSet 插入元素是无序的。
 
 ## Queue接口常用实现类
 
