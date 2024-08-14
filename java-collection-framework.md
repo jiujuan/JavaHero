@@ -340,6 +340,11 @@ public class HashMapDemo {
 
 ### TreeMap概述
 从集合类的层次结构图可以看出，TreeMap 实现了 SortedMap 接口，它可以按键的自然顺序或指定比较器的顺序进行排序，保证元素的插入顺序，底层数据结构是使用红黑树实现排序。
+与 HashMap 最大区别就是，它能保证元素的顺序。
+
+### LinkedHashMap概述
+
+LinkedHashMap 是 HashMap 结合了链表的功能，使得 HashMap 插入元素变得有序，HashMap 中的元素是无序的。
 
 ## Set接口常用实现类
 
