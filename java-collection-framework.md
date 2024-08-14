@@ -402,6 +402,10 @@ public class HashSetDemo {
 }
 ```
 
+### LinkedHashSet概述
+
+LinkedHashSet 继承自 HashSet，它是由 LinkedHashMap 实现。与 HashSet 最大不同是，它使用链表维护了元素的插入顺序，而 HashSet 插入元素是无序的。
+
 ## Queue接口常用实现类
 
 
