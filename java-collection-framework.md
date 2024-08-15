@@ -62,6 +62,11 @@ Java 集合常用的实现类有：ArrayList、LinkedList、ArrayDeque、Priorit
 
 ## List接口常用实现类
 
+List 是一个接口，它继承于 Collection 接口。它代表着有序的队列，List 可以有序存储数据，允许存储重复的值。
+
+![image](https://github.com/user-attachments/assets/cd1c5824-4e12-43d9-842e-57ee404cd05c)
+
+
 ### ArrayList概述
 
 ArrayList 实现了 List 接口，它是一个动态数组。
