@@ -355,6 +355,9 @@ LinkedHashMap 是 HashMap 结合了链表的功能，使得 LinkedHashMap 插入
 
 Set 接口继承自 Collection 接口，Set 是一个无序集合，不允许存储重复元素。
 
+![image](https://github.com/user-attachments/assets/93dbd54e-1143-46fa-9f76-40b0e93c1e83)
+
+
 ### HashSet概述
 
 HashSet 是基于 HashMap 实现也就是使用哈希表实现，它是对 HashMap 的一个简单封装。
