@@ -414,6 +414,14 @@ public class HashSetDemo {
 
 LinkedHashSet 继承自 HashSet，它由 LinkedHashMap 实现。与 HashSet 最大区别是，它用链表使了插入的元素有序，而 HashSet 插入元素是无序的。
 
+### TreeSet概述
+
+与 TreeMap 相似，TreeSet 也是基于红黑树实现的有序集合，是继承 SortedMap 接口。提供一个有序的 Set 集合。
+TreeSet 是基于 TreeMap 实现的。TreeSet 的值不允许插入 Null 。TreeSet 也是非线程安全。
+TreeSet 中的元素支持 2 种排序方式：
+- 自然元素排序
+- 根据提供的 Comparator 进行排序
+
 ## Queue接口常用实现类
 
 
