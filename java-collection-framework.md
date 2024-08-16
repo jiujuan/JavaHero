@@ -433,6 +433,13 @@ TreeSet 中的元素支持 2 种排序方式：
 
 ## Queue接口常用实现类
 
+queue 一般叫队列，是一个先进先出 FIFO 的数据结构，允许在队列的前端进行删除操作（出队列），尾端进行增加操作（进队列），如下示意图：
+
+![image](https://github.com/user-attachments/assets/677e6c23-8858-4cfa-972c-b146af0bbd1e)
+
+Java 中的 Queue 接口继承了 Collection 接口，继承了基本的 Collection 的方法之外，它还支持额外的 insertion, extraction 和 inspection 操作。
+
+![image](https://github.com/user-attachments/assets/8fe8815f-b08d-4a74-8221-3a7e35202a4c)
 
 
 ## HashMap与HashSet的区别
