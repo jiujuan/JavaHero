@@ -444,6 +444,12 @@ Java 中的 Queue 接口继承了 Collection 接口，它是一个用于处理�
 
 ![image](https://github.com/user-attachments/assets/8fe8815f-b08d-4a74-8221-3a7e35202a4c)
 
+Deque：
+
+Java 以前还有个 Stack（栈）的类，现在不推介使用，现在推介使用更高效的 ArrayDeque。
+Deque 是一个接口，是 double ended queue （双端队列）简写，它是一个可调整数组大小的接口，继承自 Queue，如果要使用队列那么首先使用的是 ArrayDeque，其次使用的 LinkedList，它们都继承自 Deque。
+> Deque文档：[https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)
+
 
 ## HashMap与HashSet的区别
 
