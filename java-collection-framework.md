@@ -450,6 +450,9 @@ Java 以前还有个 Stack（栈）的类，现在不推介使用，现在推介
 Deque 是一个接口，是 double ended queue （双端队列）简写，它是一个可调整数组大小的接口，继承自 Queue，如果要使用队列那么首先使用的是 ArrayDeque，其次使用的 LinkedList，它们都继承自 Deque。
 > Deque文档：[https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)
 
+### ArrayDeque概述
+
+ArrayDeque 是 Deque 接口的实现
 
 ## HashMap与HashSet的区别
 
