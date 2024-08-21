@@ -454,6 +454,8 @@ Deque 是一个接口，是 double ended queue （双端队列）简写，它是
 
 ArrayDeque 是 Deque 接口的实现
 
+### PriorityQueue
+
 ## HashMap与HashSet的区别
 
 - HashMap 的元素是由 key-value 组成，key 用来标识元素，value 则是元素的实际值。而 HashSet 的元素是值的集合，只存储元素值，而不是 key-value 这样的键值对。
