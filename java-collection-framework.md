@@ -458,7 +458,7 @@ Deque 是一个接口，是 double ended queue （双端队列）简写，继承
 ArrayDeque 是 Deque 接口的实现，官方现在推荐使用 ArrayDeque 当作栈和队列使用。ArrayDeque 底层使用了数组来实现，而且是一个可变长数组，所以容量没有限制。
 
 ### PriorityQueue
-
+PriorityQueue
 ## HashMap与HashSet的区别
 
 - HashMap 的元素是由 key-value 组成，key 用来标识元素，value 则是元素的实际值。而 HashSet 的元素是值的集合，只存储元素值，而不是 key-value 这样的键值对。
