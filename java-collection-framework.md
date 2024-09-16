@@ -451,7 +451,21 @@ Java 以前有一个 Stack（栈）的类，现在不推荐使用了。现在推
 Deque 是一个接口，是 double ended queue （双端队列）简写，继承自 Queue，Deque 接口提供了数组两端添加和删除元素的方法，使它既可以作为栈，也可以作为队列使用。
 
 如果使用队列推荐首先使用 ArrayDeque，其次使用的 LinkedList，它们都继承了 Deque。
+
 > Deque文档：[https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)
+
+Deque 与 Stack 对应的接口方法：
+- addFirst(e) 向栈顶插入元素，失败则抛出异常
+- offerFirst(e) 向栈顶插入元素，失败则返回`false`
+- removeFirst() 获取并删除栈顶元素，失败则抛出异常
+- pollFirst() 获取并删除栈顶元素，失败则返回 null
+- peekFirst() 获取但不删除栈顶元素，失败则返回 null
+
+Deque 与 Queue 相对应的接口方法：
+- addLast(e) 向队尾插入元素，失败则抛出异常
+- offerLast(e) 向队尾插入元素，失败则返回 false
+- removeFirst() 获取并删除队首元素，失败则抛出异常
+- pollFirst() 获取并删除队首元素，失败则返回 null
 
 ### ArrayDeque概述
 
