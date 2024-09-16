@@ -449,6 +449,7 @@ Deque：
 Java 以前有一个 Stack（栈）的类，现在不推荐使用了。现在推荐使用更高效的 ArrayDeque。
 
 Deque 是一个接口，是 double ended queue （双端队列）简写，继承自 Queue，Deque 接口提供了数组两端添加和删除元素的方法，使它既可以作为栈，也可以作为队列使用。
+> 双端队列：两端都可进可出。一般说的队列是一端进另一端出。
 
 如果使用队列推荐首先使用 ArrayDeque，其次使用的 LinkedList，它们都继承了 Deque。
 
