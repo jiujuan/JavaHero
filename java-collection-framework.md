@@ -449,28 +449,45 @@ Deque：
 Java 以前有一个 Stack（栈）的类，现在不推荐使用了。现在推荐使用更高效的 ArrayDeque。
 
 Deque 是一个接口，是 double ended queue （双端队列）简写，继承自 Queue，Deque 接口提供了数组两端添加和删除元素的方法，使它既可以作为栈，也可以作为队列使用。
-> 双端队列：两端都可进可出。一般说的队列是一端进另一端出。
+> 双端队列：两端都可进可出。一般说的队列数据结构是一端进另一端出。
 
 如果使用队列推荐首先使用 ArrayDeque，其次使用的 LinkedList，它们都继承了 Deque。
-
 > Deque文档：[https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)
 
 Deque 与 Stack 对应的接口方法：
-- addFirst(e) 向栈顶插入元素，失败则抛出异常
-- offerFirst(e) 向栈顶插入元素，失败则返回`false`
-- removeFirst() 获取并删除栈顶元素，失败则抛出异常
-- pollFirst() 获取并删除栈顶元素，失败则返回 null
-- peekFirst() 获取但不删除栈顶元素，失败则返回 null
+
+| Stack Method | Deque Method    | 说明                     |
+| ------------ | --------------- | ---------------------- |
+| `push(e)`    | `addFirst(e)`   | 向栈顶插入元素，失败则抛出异常        |
+| 无            | `offerFirst(e)` | 向栈顶插入元素，失败则返回`false`   |
+| `pop()`      | `removeFirst()` | 获取并删除栈顶元素，失败则抛出异常      |
+| 无            | `pollFirst()`   | 获取并删除栈顶元素，失败则返回`null`  |
+| `peek()`     | `peekFirst()`   | 获取但不删除栈顶元素，失败则抛出异常     |
+| 无            | `peekFirst()`   | 获取但不删除栈顶元素，失败则返回`null` |
 
 Deque 与 Queue 相对应的接口方法：
-- addLast(e) 向队尾插入元素，失败则抛出异常
-- offerLast(e) 向队尾插入元素，失败则返回 false
-- removeFirst() 获取并删除队首元素，失败则抛出异常
-- pollFirst() 获取并删除队首元素，失败则返回 null
+
+| Queue Method | Deque Method    | 说明                     |
+| ------------ | --------------- | ---------------------- |
+| `add(e)`     | `addLast(e)`    | 向队尾插入元素，失败则抛出异常        |
+| `offer(e)`   | `offerLast(e)`  | 向队尾插入元素，失败则返回 false    |
+| `remove()`   | `removeFirst()` | 获取并删除队首元素，失败则抛出异常      |
+| `poll()`     | `pollFirst()`   | 获取并删除队首元素，失败则返回`null`  |
+| `element()`  | `getFirst()`    | 获取但不删除队首元素，失败则抛出异常     |
+| `peek()`     | `peekFirst()`   | 获取但不删除队首元素，失败则返回`null` |
+
+上面定义的接口方法，都有添加，删除，取值两套接口方法，它们功能相同，区别是对失败情况的处理不同。
+一套接口遇到失败的情况就会抛出异常，另外一套接口遇到失败的情况则会返回特殊值（`false`或`null`）。
 
 ### ArrayDeque概述
 
-ArrayDeque 是 Deque 接口的实现，官方现在推荐使用 ArrayDeque 当作栈和队列使用。ArrayDeque 底层使用了数组来实现，而且是一个可变长数组，所以容量没有限制。
+ArrayDeque 和  LinkedList 是 Deque 接口的两个通用实现。官方现在推荐使用 ArrayDeque 当作栈和队列使用。
+ArrayDeque 底层使用数组来实现，而且是一个可变长数组，它根据需求容量可以自动扩容数组，所以容量没有限制。它可以在数组两端实现插入或删除元素。
+
+ArrayDeque 类结构图：
+
+![image](https://github.com/user-attachments/assets/987bb5ad-1d68-45a6-bba2-eea7a3ef01f8)
+
 
 ### PriorityQueue
 PriorityQueue
