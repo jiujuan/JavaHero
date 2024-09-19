@@ -499,7 +499,25 @@ ArrayDeque特性：
 - 不是线程安全的
 - 可以当作栈使用，也可以当作队列使用。当作栈时性能比 stack 好，当作队列时性能比 linkedlist 好。
 
+```Java
+import java.util.ArrayDeque;
 
+class ArrayDequeDemo {
+    public static void main(String[] args) {
+        ArrayDeque<String> fruit= new ArrayDeque<>();
+
+        // 使用 addFirst()
+        fruit.addFirst("banana");
+        // 使用 addLast()
+        fruit.addLast("apple");
+        
+	    fruit.offerFirst("cheery");
+	    animals.offerLast("peach");
+	    
+	    System.out.println("ArrayDeque: " + fruit);
+    }
+}
+```
 
 ### PriorityQueue概述
 
