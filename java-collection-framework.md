@@ -489,9 +489,16 @@ Deque 与 Queue 相对应的接口方法：
 ArrayDeque 和  LinkedList 是 Deque 接口的两个通用实现。官方现在推荐使用 ArrayDeque 当作栈和队列使用。
 ArrayDeque 底层使用数组来实现，而且是一个可变长数组，它根据需求容量可以自动扩容数组，所以容量没有限制。它可以在数组两端实现插入或删除元素。
 
-ArrayDeque 类结构图：
+ArrayDeque 类与接口结构图：
 
 ![image](https://github.com/user-attachments/assets/987bb5ad-1d68-45a6-bba2-eea7a3ef01f8)
+
+ArrayDeque特性：
+- 它是一个基于数组实现的没有容量限制的双端队列
+- 它不可以存储 null 元素
+- 不是线程安全的
+- 可以当作栈使用，也可以当作队列使用。当作栈时性能比 stack 好，当作队列时性能比 linkedlist 好。
+
 
 
 ### PriorityQueue
