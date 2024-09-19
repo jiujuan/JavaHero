@@ -501,8 +501,23 @@ ArrayDeque特性：
 
 
 
-### PriorityQueue
-PriorityQueue
+### PriorityQueue概述
+
+什么是优先级队列？
+> 普通的队列数据结构操作一般是先进先出（FIFO）原则。
+> 优先级队列的出队顺序和入队顺序无关，与元素优先级有关。优先级队列的每个元素被赋予优先级，当访问队列元素时，具有最高优先级的元素（最大或最小值）最先访问。
+
+Java 中的优先队列 PriorityQueue ，它每次取的最高优先级元素是最小值。
+Java 中实现它的数据结构是什么？是完全二叉树实现的小顶堆。用数组实现的小顶堆（最小堆）。
+
+> 父节点的值总是大于或等于任何一个子节点的值时为“最大堆”。
+> 父节点的值总是小于或等于任何一个子节点的值时为“最小堆”。
+
+数组实现的小顶堆示意图：
+
+![image](https://github.com/user-attachments/assets/55e2f538-bfec-41f2-853c-9e40186221d6)
+
+
 ## HashMap与HashSet的区别
 
 - HashMap 的元素是由 key-value 组成，key 用来标识元素，value 则是元素的实际值。而 HashSet 的元素是值的集合，只存储元素值，而不是 key-value 这样的键值对。
