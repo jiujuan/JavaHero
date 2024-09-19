@@ -489,6 +489,9 @@ Deque 与 Queue 相对应的接口方法：
 ArrayDeque 和  LinkedList 是 Deque 接口的两个通用实现。官方现在推荐使用 ArrayDeque 当作栈和队列使用。
 ArrayDeque 底层使用数组来实现，而且是一个可变长数组，它根据需求容量可以自动扩容数组，所以容量没有限制。它可以在数组两端实现插入或删除元素。
 
+ArrayDeque 文档：
+> https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html
+
 ArrayDeque 类与接口结构图：
 
 ![image](https://github.com/user-attachments/assets/987bb5ad-1d68-45a6-bba2-eea7a3ef01f8)
@@ -525,15 +528,24 @@ class ArrayDequeDemo {
 > 普通的队列数据结构操作一般是先进先出（FIFO）原则。
 > 优先级队列的出队顺序和入队顺序无关，与元素优先级有关。优先级队列的每个元素被赋予优先级，当访问队列元素时，具有最高优先级的元素（最大或最小值）最先访问。
 
-Java 中的优先队列 PriorityQueue ，它每次取的最高优先级元素是最小值。
-Java 中实现它的数据结构是什么？是完全二叉树实现的小顶堆。用数组实现的小顶堆（最小堆）。
+Java 中的优先队列 PriorityQueue ，它每次取的最高优先级元素是最小值。这里元素优先级是通过元素本身的自然顺序或通过构造时传入的比较器来确定。
+Java 中 PriorityQueue 实现它的数据结构是什么？是完全二叉树实现的小顶堆。用数组实现的小顶堆（最小堆）。
 
 > 父节点的值总是大于或等于任何一个子节点的值时为“最大堆”。
 > 父节点的值总是小于或等于任何一个子节点的值时为“最小堆”。
 
+PriorityQueue 文档：
+> https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html
+
 数组实现的小顶堆示意图：
 
 ![image](https://github.com/user-attachments/assets/55e2f538-bfec-41f2-853c-9e40186221d6)
+
+PriorityQueue 特性：
+- 存储的元素具有优先级
+- 没有容量限制
+- 不允许存入 null
+- PriorityQueue 不是线程安全
 
 
 ## HashMap与HashSet的区别
