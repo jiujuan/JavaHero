@@ -29,6 +29,12 @@ index = hashCode(key) & (length-1)
 
 **数组**，存储元素为 Node：
 ```Java
+/**
+ * The table, initialized on first use, and resized as
+ * necessary. When allocated, length is always a power of two.
+ * (We also tolerate length zero in some operations to allow
+ * bootstrapping mechanics that are currently not needed.)
+ */
 transient Node<K,V>[] table;
 
 
