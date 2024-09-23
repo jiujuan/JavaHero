@@ -65,7 +65,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 }
 ```
 
-**链表节点**，class Entry 数据结构，它继承自 Map.Entry：
+**链表节点**，class Entry 数据结构，它实现了 Map.Entry 接口：
 ```Java
 static class Entry<K, V> implements Map.Entry<K, V> {  
         final K key;  
