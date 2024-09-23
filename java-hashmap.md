@@ -32,6 +32,10 @@ index = hashCode(key) & (length-1)
 
 数组 + 链表 + 红黑树（JDK1.8 增加红黑树）
 
+链表什么情况下转换为红黑树？
+- 当链表数量超过 8 且数组长度超过 64 才会转换为红黑树。
+- 如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树
+
 ![image](https://github.com/user-attachments/assets/264496c1-b359-4032-8b02-33afb2427f02)
 
 
