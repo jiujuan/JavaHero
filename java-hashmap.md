@@ -17,7 +17,7 @@ HashMap数据结构示意图：
 
 ![image](https://github.com/user-attachments/assets/3ab7d3fb-04e0-4051-9b70-09ce1fef4496)
 
-数组里的索引是怎么来的呢？通过计算
+数组里的索引是怎么来的呢？通过下面公式计算出索引值
 ```java
 index = hashCode(key) & (length-1)
 ```
