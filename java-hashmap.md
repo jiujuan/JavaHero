@@ -32,12 +32,25 @@ index = hashCode(key) & (length-1)
 
 数组 + 链表 + 红黑树（JDK1.8 增加红黑树）
 
-链表什么情况下转换为红黑树？
-- 当链表数量超过 8 且数组长度超过 64 才会转换为红黑树。
-- 如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树
-
 ![image](https://github.com/user-attachments/assets/264496c1-b359-4032-8b02-33afb2427f02)
 
+数组简单说明：
+- 一个数组 table[]，有时也叫它哈希表、哈希数组，存储的元素是 Node<K,V>
+- 数组索引（下标），是键 key 经过 hash 函数处理后的值
+- 数组容量（capacity），也就是 HashMap 的容量，有一个默认容量值
+- 数组实际长度，也就是数组存储元素的实际数量（size）。这个实际数量到达一定值（threshold），数组容量会扩容
+
+链表简单说明：
+- 链表是为了解决 hash 值冲突问题。当通过键 key 计算出的 hash 值相同，会存储到数组的同一个位置，如果之前这个位置就有一个元素了，这时存储元素就起冲突了，怎么办？会将旧元素迁移到链表中，冲突的hash值的键值对（新元素）存储到数组中
+- 链表存储的元素 Node<K,V>
+- 链表元素数量，也就是链表长度
+
+链表什么情况下转换为红黑树？
+- 当链表元素数量超过 8 且数组长度超过 64 才会转换为红黑树。
+- 如果当前数组(或哈希表)的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树
+
+为什么引入红黑树：
+- 链表长度过长时导致的查询性能下降
 
 ### HashMap数据结构字段源码
 
@@ -49,7 +62,8 @@ index = hashCode(key) & (length-1)
  * (We also tolerate length zero in some operations to allow
  * bootstrapping mechanics that are currently not needed.)
  */
-transient Node<K,V>[] table; // 哈希桶数组
+//https://github.com/zxiaofan/JDK/blob/master/JDK1.8/src/java/util/HashMap.java#L395
+transient Node<K,V>[] table; // 哈希桶数组，哈希表
 
 
 //数组默认值，空数组：
@@ -57,12 +71,13 @@ static final Entry<?, ?>[] EMPTY_TABLE = {};  // 数组默认值
 transient Entry<K, V>[] table = (Entry<K, V>[]) EMPTY_TABLE;
 ```
 
-> Node[] table 的初始化长度length (默认值是16)。
+>Node[] table 的初始化长度length (默认值是16)。
 
 **链表**，数据结构源码，Node 它实现了 Map.Entry 接口：
 
 > Node 是 HashMap 的一个内部静态类。
 ```Java
+//https://github.com/zxiaofan/JDK/blob/master/JDK1.8/src/java/util/HashMap.java
 /**
  * Basic hash bin node, used for most entries.  (See below for
  * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
@@ -90,7 +105,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 **链表节点**，Entry 数据结构，它实现了 Map.Entry 接口：
 
-> Entry 是 HashMap 的一个内部静态类。
+> Entry 是 HashMap 的一个内部静态类，它实现了 Map.Entry 接口。
 ```Java
 static class Entry<K, V> implements Map.Entry<K, V> {  
         final K key;  
@@ -114,3 +129,33 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
     ... ...
 }
 ```
+
+### HashMap类中重要属性：扩容阙值、负载因子、容量等
+
+```Java
+transient int size;  // hashmap 中包含的键值对的数量，哈希表实际存储元素数量
+
+int threshold; // hashmap 发生扩容的阈值，等于 capacity * loadFactor。
+//用来判断是否需要调整HashMap capacity大小。
+//比如HashMap容量capacity为 16 x loadFactor为 0.75 = 12，threshold = 12，如果哈希表实际存储元素数量大于 12 就需要进行扩容。
+
+final float loadFactor; // 哈希表扩容时使用的负载因子，默认为 0.75。
+
+int DEFAULT_INITIAL_CAPACITY = 1 << 4; // HashMap 默认初始化容量大小 16，也就是数组（哈希表）容量大小是 16。这个初始化值可以通过构造函数修改。数组的容量必须是2的幂
+
+final float DEFAULT_LOAD_FACTOR = 0.75f;   //负载因子默认值 0.75
+
+int MAXIMUM_CAPACITY = 1 << 30; // HashMap 容量默认最大值，2的30次方。可以通过构造函数调整
+
+final int TREEIFY_THRESHOLD = 8 // 链表转换为红黑树时链表的阙值（这里阙值就是链表的长度）
+final int MIN_TREEIFY_CAPACITY = 64; // 链表转换为红黑树时哈希表的容量，大于 64 转换为红黑树
+final int UNTREEIFY_THRESHOLD = 6; // 红黑树转换为链表的阙值，当一个红黑树中的元素数量少于 6 时，红黑树就转换为链表
+
+```
+
+## HashMap中的操作功能 API-方法
+
+
+
+## 参考
+- https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
