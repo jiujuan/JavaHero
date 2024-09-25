@@ -64,12 +64,12 @@ index = hashCode(key) & (length-1)
  * bootstrapping mechanics that are currently not needed.)
  */
 //https://github.com/zxiaofan/JDK/blob/master/JDK1.8/src/java/util/HashMap.java#L395
-transient Node<K,V>[] table; // 哈希桶数组，哈希表
+transient Node<K,V>[] table; // 哈希桶数组，哈希表, jdk1.8
 
 
 //数组默认值，空数组：
 static final Entry<?, ?>[] EMPTY_TABLE = {};  // 数组默认值
-transient Entry<K, V>[] table = (Entry<K, V>[]) EMPTY_TABLE;
+transient Entry<K, V>[] table = (Entry<K, V>[]) EMPTY_TABLE; // jdk1.7
 ```
 
 >Node[] table 的初始化长度length (默认值是16)。
