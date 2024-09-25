@@ -104,6 +104,10 @@ static class Node<K,V> implements Map.Entry<K,V> {
 }
 ```
 
+结构图解：
+
+![image](https://github.com/user-attachments/assets/745744dd-6e16-4c4d-bdbd-ab9ff73ad6bc)
+
 newNode，创建一个 Node 节点：
 ```Java
 // Create a regular (non-tree) node，创建一个Node节点（非树）
