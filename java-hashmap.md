@@ -35,7 +35,8 @@ index = hashCode(key) & (length-1)
 ![image](https://github.com/user-attachments/assets/264496c1-b359-4032-8b02-33afb2427f02)
 
 数组简单说明：
-- 一个数组 table[]，有时也叫它哈希表、哈希数组。数组中节点用 Node<K,V>表示
+
+- 一个数组 table[]，类型是Node<K,V>（java1.8），在 java1.7中是 Entry<K,V>。这个数组有时也叫它哈希表、哈希数组
 - 数组索引（下标），是键 key 经过 hash 函数处理后的值
 - 数组容量（capacity），也就是 HashMap 的容量，有一个默认容量值
 - 数组实际长度，也就是数组存储元素的实际数量（size）。这个实际数量到达一定值（threshold），数组容量会扩容
