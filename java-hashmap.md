@@ -74,7 +74,7 @@ transient Entry<K, V>[] table = (Entry<K, V>[]) EMPTY_TABLE; // jdk1.7
 
 >Node[] table 的初始化长度length (默认值是16)。
 
-**链表**，数据结构源码，Node 它实现了 Map.Entry 接口：
+**链表与节点**，数据结构源码，Node 它实现了 Map.Entry 接口：
 
 > Node 是 HashMap 的一个内部静态类。
 ```Java
