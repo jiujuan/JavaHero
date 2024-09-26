@@ -150,6 +150,7 @@ TreeNode<K,V> newTreeNode(int hash, K key, V value, Node<K,V> next) {
 	return new TreeNode<>(hash, key, value, next);
 }
 ```
+
 ### HashMap类中重要属性：扩容阙值、负载因子、容量等
 
 ```Java
@@ -232,11 +233,14 @@ public HashMap(Map<? extends K, ? extends V> m) {
 final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict){... ...}
 ```
 
-> **说明**：在构造函数源码中，没有看到初始化数组 table。那数组 table（哈希表） 是在什么时候初始化呢？是在第一添加键值对时，调用 put 方法初始化的。
+> **说明**：在上面构造函数源码中，没有看到初始化数组 table。那数组 table（哈希表） 是在什么时候初始化呢？是在第一添加键值对调用 put 方法初始化的。（jdk1.8）
+> jdk1.7及以前，创建 HashMap 对象时就会从构造方法生成一个默认大小为 16 的 Entry[] table 数组。
 
-### 添加键值对 put方法
+### 添加键值对的put方法
 
-put 方法源码：
+HashMap 中 put 方法
+
+put 方法源码分析：
 
 ```Java
 //https://github.com/zxiaofan/JDK/blob/master/JDK1.8/src/java/util/HashMap.java#L610
@@ -247,47 +251,100 @@ public V put(K key, V value) {
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 			   boolean evict) {
 	Node<K,V>[] tab; Node<K,V> p; int n, i;
-	// 1. tab（table）为空则创建数组table。也就是上面提到的数组table初始化在put方法里
+	// 1. tab（table）为空则初始化数组table。resize()函数作用初始化table或扩容table。
+	// (tab = table) == null，把table赋值给tab，然后判断tab是否为null，第一次肯定为null
+	// (n = tab.length) == 0，把数组的长度赋值给 n，然后判断n是否等于0
 	if ((tab = table) == null || (n = tab.length) == 0)
-		n = (tab = resize()).length;
+		n = (tab = resize()).length; // 进行数组初始化，并将初始化数组的长度赋值给n
+		
+	// 2. i=(n - 1) & hash 计算索引下标。
+	// 如果 tab[i] 为 null，也就是 key 对应下标元素不存在则直接插入元素 Node
 	if ((p = tab[i = (n - 1) & hash]) == null)
 		tab[i] = newNode(hash, key, value, null);
 	else {
 		Node<K,V> e; K k;
+		// 3. key 对应下标元素是否存在，是 则覆盖当前元素值 value
 		if (p.hash == hash &&
 			((k = p.key) == key || (key != null && key.equals(k))))
 			e = p;
+		// 4. 判断 p 元素类型是否为红黑树节点，是就调用putTreeVal插入元素	
 		else if (p instanceof TreeNode)
 			e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
-		else {
+		else {// 5. else执行链表操作逻辑
+		
+		    // 循环遍历链表判断链表中是否有重复的key
 			for (int binCount = 0; ; ++binCount) {
+			    
+			    // e = p.next 获取下一个元素，然后判断e的值是否为null，等于null此时就到达了链表尾部，元素没找到就插入元素
 				if ((e = p.next) == null) {
-					p.next = newNode(hash, key, value, null);
+					p.next = newNode(hash, key, value, null); // 创建新节点插入元素到尾部
+					// 节点添加完后，判断此时节点个数是否大于 TREEIFY_THRESHOLD=8 
+					// binCount>=7
 					if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-						treeifyBin(tab, hash);
-					break;
+						treeifyBin(tab, hash); // 转换为红黑树
+					break; // 跳出循环
 				}
+				
+				// 链表中key已经存在则跳出循环
 				if (e.hash == hash &&
 					((k = e.key) == key || (key != null && key.equals(k))))
-					break;
+					break; // 跳出循环
+					
+			    // 与前面 e= p.next 结合遍历链表，添加新元素与当前节点不相等，继续查找下一个节点
 				p = e;
 			}
 		}
+		// 如果找到了重复的元素，就用新值替换旧值，最后返回旧值
 		if (e != null) { // existing mapping for key
 			V oldValue = e.value;
 			if (!onlyIfAbsent || oldValue == null)
-				e.value = value;
+				e.value = value; // 新值替换旧值，e.value 表示旧值 value表示新值
 			afterNodeAccess(e);
-			return oldValue;
+			return oldValue; // 返回旧值
 		}
 	}
 	++modCount;
+	// 6.判断超过threshold阙值就扩容
 	if (++size > threshold)
 		resize();
 	afterNodeInsertion(evict);
 	return null;
 }
 ```
+
+代码执行步骤说明，put 方法调用的是 putVal 方法：
+
+> 1、如果数组table=null 或 table.length=0 ，那么调用 resize() 方法初始化table
+> 
+> 2、计算tab（table）的索引下标所处位置元素
+> 
+>     - 如果为 null
+>        那么新建一个Node然后插入元素；
+> 
+>     - 如果不为 null
+> 
+>        3. 判断key所在的元素是否存在或key不为null且相等，那么覆盖原来的值
+> 
+>        4. 判断元素是否为红黑树节点，是的话，就调用putTreeVal方法插入元素
+> 
+>        5. else 那么就执行链表操作逻辑
+> 
+>           循环链表查找当前链表是否有重复key，a）没有找到key，就插入值 b）找到了有重复key，替换旧值
+> 
+> 6、最后判断table大小是否超过阙值，是否扩容
+
+代码看起来不是很直观，这里找到了美团技术写的关于 HashMap 的 put 方法执行流程图，这张图画出了 put 方法里操作的几个重要数据结构、方法、逻辑流程：
+
+![image](https://github.com/user-attachments/assets/801a16fc-5ed3-4e61-b6c0-a469096c1e3f)
+
+
+（来自：美团技术团队  [Java 8系列之重新认识HashMap](https://tech.meituan.com/2016/06/24/java-hashmap.html)）
+
+## 参考
+- https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
+- https://github.com/zxiaofan/JDK/blob/master/JDK1.8 jdk1.8 java.util.HashMap.java 源码
+- https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/HashMap.java openjdk java.util.HashMap.java
+- https://docs.oracle.com/javase/8/docs/api/index.html?java/util/HashMap.html  HashMap Docs
 
 ## 参考
 - https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
