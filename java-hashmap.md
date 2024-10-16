@@ -240,7 +240,17 @@ final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict){... ...
 
 HashMap 中 put 方法
 
-put 方法源码分析：
+**图解流程**：
+
+这里找到了美团技术写的关于 HashMap 的 put 方法执行流程图，这张图画出了 put 方法里操作的几个重要数据结构、逻辑流程：
+
+![image](https://github.com/user-attachments/assets/801a16fc-5ed3-4e61-b6c0-a469096c1e3f)
+
+
+（来自：美团技术团队  [Java 8系列之重新认识HashMap](https://tech.meituan.com/2016/06/24/java-hashmap.html)）
+
+
+**put 方法源码分析**：
 
 ```Java
 //https://github.com/zxiaofan/JDK/blob/master/JDK1.8/src/java/util/HashMap.java#L610
@@ -333,12 +343,6 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 > 
 > 6、最后判断table大小是否超过阙值，是否扩容
 
-代码看起来不是很直观，这里找到了美团技术写的关于 HashMap 的 put 方法执行流程图，这张图画出了 put 方法里操作的几个重要数据结构、方法、逻辑流程：
-
-![image](https://github.com/user-attachments/assets/801a16fc-5ed3-4e61-b6c0-a469096c1e3f)
-
-
-（来自：美团技术团队  [Java 8系列之重新认识HashMap](https://tech.meituan.com/2016/06/24/java-hashmap.html)）
 
 ### hash方法(计算数组table索引) 
 
