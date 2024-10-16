@@ -340,6 +340,63 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 （来自：美团技术团队  [Java 8系列之重新认识HashMap](https://tech.meituan.com/2016/06/24/java-hashmap.html)）
 
+### hash方法(计算数组table索引) 
+
+hash 函数源码：
+
+```Java
+// JDK 1.8
+static final int hash(Object key) {
+	int h;
+	// 如果 key= null 那么哈希值为 0
+	// 否则 key 取 h = hashCode() 值，
+	// 最后让 h 值的高 16 位与 h 值进行异或运算
+	return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+```
+
+`(h = key.hashCode()) ^ (h >>> 16)` 计算出来的哈希值更加分散，减少哈希碰撞几率。
+
+
+```Java
+// JDK1.7
+static int hash(int h) {
+    int h = hashSeed;
+        if (0 != h && k instanceof String) {
+            return sun.misc.Hashing.stringHash32((String) k);
+        }
+
+    h ^= k.hashCode(); // 第一步：取hashCode值
+    h ^= (h >>> 20) ^ (h >>> 12); 
+    return h ^ (h >>> 7) ^ (h >>> 4);
+}
+
+//JDK1.7，JDK1.8 中没有这个方法
+static int indexFor(int h, int length) { 
+    return h & (length-1); //第三步 取模运算 ，计算对象保存在数组table哪个位置
+}
+```
+上面的 put 方法里有一个片段代码，计算对象保存在数组table的哪个位置 (n - 1) & hash：
+```Java
+tab[i = (n - 1) & hash]) // 计算数组的索引位置
+
+// 这里的 n 就是数组table的长度
+```
+
+> Hash 算法步骤：
+> 1、取key的 hashCode 值
+> 2、根据 hashcode 计算出hash值（高位异或运算）
+> 
+> 元素对象保存在数组table哪个位置：通过取模计算索引值， (table.length - 1) & hash
+
+JDK1.8 相对 JDK1.7 优化了高位运算的算法，通过hashCode()的高16位异或低16位实现的：(h = k.hashCode()) ^ (h >>> 16)。这么做可以在数组table的length比较小的时候，也能保证考虑到高低Bit都参与到Hash的计算中，同时不会有太大的开销。
+> 来自：美团技术团队  [Java 8系列之重新认识HashMap](https://tech.meituan.com/2016/06/24/java-hashmap.html)  图
+
+n 为 数组table 的长度，下图中的下标指的是数组索引，
+
+![image](https://github.com/user-attachments/assets/ff4f70bf-74e7-43c0-9e1a-76c4905488be)
+
+
 ## 参考
 - https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
 - https://github.com/zxiaofan/JDK/blob/master/JDK1.8 jdk1.8 java.util.HashMap.java 源码
