@@ -401,12 +401,13 @@ n 为 数组table 的长度，下图中的下标指的是数组索引，
 ![image](https://github.com/user-attachments/assets/ff4f70bf-74e7-43c0-9e1a-76c4905488be)
 
 
+### resize扩容
+
+HashMap 的扩容机制是指 HashMap 调整容量大小
+
 ## 参考
 - https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
 - https://github.com/zxiaofan/JDK/blob/master/JDK1.8 jdk1.8 java.util.HashMap.java 源码
 - https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/HashMap.java openjdk java.util.HashMap.java
 - https://docs.oracle.com/javase/8/docs/api/index.html?java/util/HashMap.html  HashMap Docs
 
-## 参考
-- https://tech.meituan.com/2016/06/24/java-hashmap.html Java 8系列之重新认识HashMap - 美团技术团队
-- https://github.com/zxiaofan/JDK/blob/master/JDK1.8 jdk1.8 java.util.HashMap.java 源码
