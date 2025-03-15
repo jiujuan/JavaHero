@@ -35,7 +35,7 @@ MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接�
 
 >用的是 JDBC 中的 Statement Id 和查询参数传给 SqlSession 对象，然后使用 SqlSession 对象完成与数据库的交互操作。
 
-**Mapper 接口：通过 `MapperProxy` 生成接口代理对象，将接口方法映射为 SQL 操作。
+**Mapper 接口**：通过 `MapperProxy` 生成接口代理对象，将接口方法映射为 SQL 操作。
 
 - Mapper 接口：定义操作数据库的方法，通常与具体的 SQL 语句一一映射对应。
 - Mapper XML 文件：定义了 SQL 语句、SQL 中的参数，对应的 Mapper 接口的操作方法等。
@@ -67,7 +67,7 @@ MyBatis 初始化配置过程中，除了会读取 mybatis-config.xml 配置文�
 
 - Configuration：核心配置类，全局配置解析，管理配置解析。`session.Configuration`
 - MappedStatement：封装 SQL 映射信息。`mapping.MappedStatement`
-- 
+
 #### SQL 解析
 
 要解析的 SQL 语句通常存储在 xxxMapper.xml 配置文件中或 xxxMapper 接口的注解信息中。
