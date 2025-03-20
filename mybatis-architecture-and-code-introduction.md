@@ -188,7 +188,161 @@ MyBatis 初始化时加载并解析配置文件
 
 完成数据库操作后，应该关闭 `SqlSession` 以释放资源。
 
+## MyBatis 主要的代码接口和类说明
+
+### 1. **接口层（API Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.session.SqlSession`：核心接口，提供执行 SQL 的方法。
+    
+    - `org.apache.ibatis.session.SqlSessionFactory`：用于创建 `SqlSession` 的工厂接口。
+    
+    - `org.apache.ibatis.session.SqlSessionFactoryBuilder`：用于构建 `SqlSessionFactory` 的构建器类。
+
+### 2. **数据处理层（Data Handling Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.executor.Executor`：执行器接口，负责 SQL 的执行。
+    
+    - `org.apache.ibatis.executor.statement.StatementHandler`：负责处理 JDBC 的 `Statement`。
+    
+    - `org.apache.ibatis.executor.parameter.ParameterHandler`：负责参数处理。
+    
+    - `org.apache.ibatis.executor.resultset.ResultSetHandler`：负责结果集处理。
+
+### 3. **配置层（Configuration Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.session.Configuration`：核心配置类，管理所有配置信息。
+    
+    - `org.apache.ibatis.mapping.MappedStatement`：封装 SQL 映射信息。
+    
+    - `org.apache.ibatis.type.TypeHandler`：类型处理器接口。
+    
+    - `org.apache.ibatis.plugin.Interceptor`：拦截器接口。
+
+
+### 4. **映射层（Mapping Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.mapping.ResultMap`：定义结果集与 Java 对象的映射关系。
+    
+    - `org.apache.ibatis.mapping.ResultMapping`：定义列与属性的映射关系。
+    
+    - `org.apache.ibatis.mapping.SqlSource`：负责生成 SQL 语句。
+    
+    - `org.apache.ibatis.mapping.BoundSql`：封装最终的 SQL 语句及其参数。
+
+### 5. **数据源层（DataSource Layer）**
+
+- **核心类**：
+    
+    - `javax.sql.DataSource`：数据源接口。
+    
+    - `org.apache.ibatis.transaction.TransactionFactory`：事务工厂接口。
+    
+    - `org.apache.ibatis.transaction.Transaction`：事务接口。
+
+### 6. **缓存层（Cache Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.cache.Cache`：缓存接口。
+    
+    - `org.apache.ibatis.cache.impl.PerpetualCache`：基于内存的缓存实现。
+    
+    - `org.apache.ibatis.cache.decorators.LruCache`：基于 LRU 算法的缓存实现。
+    
+    - `org.apache.ibatis.cache.decorators.BlockingCache`：支持阻塞的缓存实现。
+
+### 7. **日志层（Logging Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.logging.Log`：日志接口。
+    
+    - `org.apache.ibatis.logging.LogFactory`：日志工厂类。
+    
+    - 支持多种日志框架的实现，如 `org.apache.ibatis.logging.slf4j.Slf4jImpl`。
+
+### 8. **插件层（Plugin Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.plugin.Interceptor`：拦截器接口。
+    
+    - `org.apache.ibatis.plugin.InterceptorChain`：拦截器链。
+
+### 9. **事务管理层（Transaction Management Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.transaction.Transaction`：事务接口。
+    
+    - `org.apache.ibatis.transaction.jdbc.JdbcTransaction`：基于 JDBC 的事务实现。
+    
+    - `org.apache.ibatis.transaction.managed.ManagedTransaction`：由容器管理的事务实现。
+
+### 10. **类型处理器层（Type Handler Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.type.TypeHandler`：类型处理器接口。
+    
+    - 内置实现类：
+        
+        - `org.apache.ibatis.type.StringTypeHandler`
+        
+        - `org.apache.ibatis.type.IntegerTypeHandler`
+        
+        - `org.apache.ibatis.type.DateTypeHandler` 等。
+
+### 11. **SQL 解析层（SQL Parsing Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.mapping.SqlSource`：SQL 源接口。
+    
+    - `org.apache.ibatis.scripting.xmltags.DynamicSqlSource`：处理动态 SQL。
+    
+    - `org.apache.ibatis.scripting.defaults.RawSqlSource`：处理静态 SQL。
+
+### 12. **异常处理层（Exception Handling Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.exceptions.PersistenceException`：MyBatis 根异常类。
+    
+    - `org.apache.ibatis.exceptions.IbatisException`（已弃用）。
+
+### 13. **工具层（Utilities Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.reflection.Reflector`：反射工具类。
+    
+    - `org.apache.ibatis.reflection.MetaObject`：元对象工具类。
+    
+    - `org.apache.ibatis.reflection.factory.ObjectFactory`：对象工厂接口。
+    
+    - `org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory`：对象包装工厂接口。
+    
+
+### 14. **扩展层（Extension Layer）**
+
+- **核心类**：
+    
+    - `org.apache.ibatis.reflection.factory.ObjectFactory`：对象工厂接口。
+    
+    - `org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory`：对象包装工厂接口。
+    
+    - `org.apache.ibatis.reflection.ReflectorFactory`：反射工厂接口。
 ## 参考
 
 - mybatis.org/mybatis-3/zh_CN MyBatis 网站
 - https://book.douban.com/subject/27087564/ MyBatis 技术内幕，作者: 徐郡明
+- https://github.com/mybatis/mybatis-3/tree/3.4.x mybatis github源码地址
