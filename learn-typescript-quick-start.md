@@ -42,6 +42,16 @@ let myColor: Color = Color.Green;
 console.log(myColor); // 输出：1
 ```
 
+## 联合枚举和枚举成员类型
+```TypeScript
+enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+}
+
+type DirectionType = keyof typeof Direction; // "Up" | "Down"
+```
+
 ## Any 和 Unknown 类型
 ```TypeScript
 let notSure: any = 4;
@@ -79,6 +89,17 @@ const john: Person = {
   name: "John",
   age: 25,
 };
+
+// 索引类型查询和访问 (Keyof, Indexed Access Types)
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+
+type UserKey = keyof User; // "id" | "name" | "age"
+
+type UserIdType = User["id"]; // number
 ```
 
 ## 类 (Class)
@@ -106,6 +127,7 @@ function identity<T>(arg: T): T {
 }
 
 let output = identity<string>("Hello World"); // T 被推断为 string
+let output1 = identity<number>(42);
 
 // 泛型接口
 interface GenericInterface<T> {
@@ -113,6 +135,20 @@ interface GenericInterface<T> {
 }
 
 const genericObj: GenericInterface<number> = { value: 42 };
+
+// 泛型类
+class GenericNumber<T> {
+  zeroValue: T;
+  add: (x: T, y: T) => T;
+
+  constructor(zeroValue: T, addFn: (x: T, y: T) => T) {
+    this.zeroValue = zeroValue;
+    this.add = addFn;
+  }
+}
+
+let myGenericNumber = new GenericNumber<number>(0, (x, y) => x + y);
+console.log(myGenericNumber.add(10, 20));
 ```
 
 ## 模块 (Modules)
@@ -128,6 +164,16 @@ export class Calculator {
 import { Calculator } from "./calculator";
 const calc = new Calculator();
 console.log(calc.add(1, 2));
+
+//-----
+// math.ts
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+// app.ts
+import { add } from "./math";
+console.log(add(10, 20));
 ```
 
 ## 类型断言 (Type Assertion)
@@ -187,6 +233,17 @@ move("up"); // 正确
 // move("forward"); // 错误
 ```
 
+## 模板字面量类型 (Template Literal Types)
+
+可以基于字符串模板动态生成类型。
+```TypeScript
+type Prefix = "user_" | "admin_";
+type Suffix = "id" | "name";
+
+type UserKeys = `${Prefix}${Suffix}`;
+// "user_id" | "user_name" | "admin_id" | "admin_name"
+```
+
 ## 交叉类型 (Intersection Types)
 将多个类型合并为一个更复杂的类型。
 ```TypeScript
@@ -213,6 +270,12 @@ let user: { name?: string; address?: { city?: string } } = {};
 
 // 安全地访问
 console.log(user?.address?.city); // undefined
+
+//--------
+let user = { address: { city: "New York" } };
+
+// 可选链
+console.log(user?.address?.city); // "New York"
 ```
 
 ## 空值合并运算符 (Nullish Coalescing)
@@ -222,6 +285,175 @@ let input: string | undefined;
 let defaultValue: string = input ?? "Default Value";
 
 console.log(defaultValue); // "Default Value"
+
+//------
+let input2: string | null = null;
+let defaultValue2 = input2 ?? "Default Value";
+console.log(defaultValue2); // "Default Value"
+```
+
+## 接口扩展 (Interface Inheritance)
+一个接口可以扩展另一个接口。
+```TypeScript
+interface Animal {
+  name: string;
+}
+
+interface Dog extends Animal {
+  breed: string;
+}
+
+const myDog: Dog = {
+  name: "Buddy",
+  breed: "Golden Retriever",
+};
+```
+
+## 抽象类 (Abstract Class)
+抽象类用于定义不能直接实例化的基类。
+```TypeScript
+abstract class Shape {
+  abstract getArea(): number;
+
+  printArea(): void {
+    console.log(`Area: ${this.getArea()}`);
+  }
+}
+
+class Circle extends Shape {
+  constructor(public radius: number) {
+    super();
+  }
+
+  getArea(): number {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+const circle = new Circle(5);
+circle.printArea(); // 输出面积
+```
+
+## 装饰器 (Decorators)
+装饰器是一种特殊的语法，用于修饰类或类的成员（需要在 tsconfig.json 中启用 experimentalDecorators）。
+```TypeScript
+function Logger(target: any, propertyKey: string): void {
+  console.log(`Property ${propertyKey} is being accessed`);
+}
+
+class User {
+  @Logger
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+
+const user = new User("Alice");
+```
+
+## 控制流分析 (Control Flow Analysis)
+TypeScript 会根据代码的控制流来推断类型。
+```TypeScript
+function example(value: string | number | null): void {
+  if (value === null) {
+    console.log("Value is null");
+  } else if (typeof value === "string") {
+    console.log(`String value: ${value}`);
+  } else {
+    console.log(`Number value: ${value}`);
+  }
+}
+```
+
+## 映射类型 (Mapped Types)
+通过映射类型可以批量修改类型的属性。
+
+```TypeScript
+type ReadonlyPerson = {
+  readonly [K in keyof Person]: Person[K];
+};
+
+interface Person {
+  name: string;
+  age: number;
+}
+
+const readonlyPerson: ReadonlyPerson = { name: "Alice", age: 30 };
+// readonlyPerson.age = 31; // 错误，属性是只读的
+
+//------------------------------
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+
+type Optional<T> = {
+  [P in keyof T]?: T[P];
+};
+
+interface User {
+  name: string;
+  age: number;
+}
+
+type ReadonlyUser = Readonly<User>;
+type OptionalUser = Optional<User>;
+
+const user: ReadonlyUser = { name: "John", age: 30 };
+// user.age = 31; // 错误，属性是只读的
+```
+
+## 条件类型 (Conditional Types)
+根据条件产生不同的类型。
+```TypeScript
+type IsString<T> = T extends string ? true : false;
+
+type Test1 = IsString<string>; // true
+type Test2 = IsString<number>; // false
+```
+
+## 类型推导 (Type Inference)
+TypeScript 可以根据上下文自动推断类型。
+```TypeScript
+let message = "Hello!"; // 推断为 string
+let numbers = [1, 2, 3]; // 推断为 number[]
+
+const num = 42; // 推断为 number
+const str = "Hello"; // 推断为 string
+
+const add = (a: number, b: number) => a + b; // 返回值类型推断为 number
+```
+
+## 非空断言操作符 (Non-null Assertion Operator)
+
+用于告诉编译器某个值不可能为 null 或 undefined。
+```TypeScript
+let value: string | null = "Hello";
+console.log(value!.toUpperCase());
+```
+
+## 类型工具 (Type Utility)
+TypeScript 提供了一些内置的类型工具，如 `Partial`、`Readonly`、`Pick`、`Omit` 等。
+```TypeScript
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+
+type PartialUser = Partial<User>; // 所有属性变为可选
+type ReadonlyUser = Readonly<User>; // 所有属性变为只读
+type PickName = Pick<User, "name">; // 只选取 name 属性
+type OmitAge = Omit<User, "age">; // 移除 age 属性
+```
+
+## 模块声明 (Ambient Declarations)
+当使用第三方库时，可以为其添加类型声明。
+```TypeScript
+declare module "my-library" {
+  export function doSomething(): void;
+}
 ```
 
 
