@@ -131,10 +131,97 @@ console.log(calc.add(1, 2));
 ```
 
 ## 类型断言 (Type Assertion)
+手动告诉编译器变量的类型。
 ```TypeScript
 let someValue: unknown = "this is a string";
 let strLength: number = (someValue as string).length;
 
 let anotherValue: unknown = "another string";
-let anotherLength: number = (<string>anotherValue).length;
+let anotherLength: number = (<string>anotherValue).length; // 或者使用尖括号语法（不推荐在 JSX 中使用）
 ```
+
+## 联合类型 (Union Types)
+联合类型允许一个变量可以是多种类型之一
+```TypeScript
+let id: number | string;
+id = 123; // 正确
+id = "abc"; // 也正确
+
+function formatId(id: number | string): string {
+  return `ID: ${id}`;
+}
+```
+
+## 类型别名 (Type Alias)
+类型别名允许为复杂的类型定义一个简短的名称。
+```TypeScript
+type UserId = number | string;
+
+function getUser(id: UserId): void {
+  console.log(`Fetching user with id: ${id}`);
+}
+```
+
+## 类型守卫 (Type Guards)
+通过类型检查缩小联合类型的范围
+```TypeScript
+function printId(id: number | string): void {
+  if (typeof id === "string") {
+    console.log(`ID is a string: ${id.toUpperCase()}`);
+  } else {
+    console.log(`ID is a number: ${id}`);
+  }
+}
+```
+
+## 字面量类型 (Literal Types)
+可以限制变量的值为某些特定的字面量。
+```TypeScript
+type Direction = "up" | "down" | "left" | "right";
+
+function move(dir: Direction): void {
+  console.log(`Moving ${dir}`);
+}
+
+move("up"); // 正确
+// move("forward"); // 错误
+```
+
+## 交叉类型 (Intersection Types)
+将多个类型合并为一个更复杂的类型。
+```TypeScript
+interface Person {
+  name: string;
+}
+
+interface Employee {
+  id: number;
+}
+
+type Staff = Person & Employee;
+
+const staffMember: Staff = {
+  name: "Alice",
+  id: 101,
+};
+```
+
+## 可选链 (Optional Chaining)
+用于安全地访问嵌套对象的属性。
+```TypeScript
+let user: { name?: string; address?: { city?: string } } = {};
+
+// 安全地访问
+console.log(user?.address?.city); // undefined
+```
+
+## 空值合并运算符 (Nullish Coalescing)
+提供默认值，防止 null 或 undefined。
+```TypeScript
+let input: string | undefined;
+let defaultValue: string = input ?? "Default Value";
+
+console.log(defaultValue); // "Default Value"
+```
+
+
