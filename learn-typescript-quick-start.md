@@ -71,7 +71,7 @@ function add(a: number, b: number): number {
 }
 
 // 可选参数和默认参数
-// 可选参数定义 ，在参数名后面加一个 `?` 符号
+// 可选参数定义 ，在参数名后面加一个 `?` 符号，这里的参数 age 就是一个可选参数
 // 在 JavaScript 里，每个参数都是可选的，可传可不传。 没传参的时候，它的值就是 undefined。 在 TypeScript 里我们可以在参数名后使用 `?` 实现可选参数的功能
 function greet(name: string, age?: number): string {
   return `Hello, ${name}`;
