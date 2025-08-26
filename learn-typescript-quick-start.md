@@ -63,12 +63,14 @@ unknownValue = 42; // 允许赋值为其他类型，但需要类型断言后才�
 
 ## 函数
 ```TypeScript
-// 带类型注解的函数
+
+// 带类型返回值的函数
 function add(a: number, b: number): number {
   return a + b;
 }
 
 // 可选参数和默认参数
+// 可选参数定义 在名字后面加一个 `?` 符号
 function greet(name: string, age?: number): string {
   return `Hello, ${name}`;
 }
