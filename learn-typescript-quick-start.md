@@ -214,7 +214,12 @@ function getUser(id: UserId): void {
 ```
 
 ## 类型守卫 (Type Guards)
-通过类型检查缩小联合类型的范围
+
+通过类型检查缩小联合类型的范围。
+
+比如下面的函数参数 id 的类型，用符号 `|` 定义为  number 或 string，它不能是其它类型，
+这样就缩小了 id 类型范围。
+
 ```TypeScript
 function printId(id: number | string): void {
   if (typeof id === "string") {
