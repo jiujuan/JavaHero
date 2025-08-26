@@ -44,6 +44,7 @@ console.log(myColor); // 输出：1
 ```
 
 ## 联合枚举和枚举成员类型
+
 ```TypeScript
 enum Direction {
   Up = "UP",
@@ -54,6 +55,7 @@ type DirectionType = keyof typeof Direction; // "Up" | "Down"
 ```
 
 ## Any 和 Unknown 类型
+
 ```TypeScript
 let notSure: any = 4;
 notSure = "maybe a string instead"; // 允许赋值为其他类型
@@ -63,6 +65,7 @@ unknownValue = 42; // 允许赋值为其他类型，但需要类型断言后才�
 ```
 
 ## 函数
+
 ```TypeScript
 
 // 带类型返回值的函数
@@ -108,6 +111,7 @@ type UserIdType = User["id"]; // number
 ```
 
 ## 类 (Class)
+
 ```TypeScript
 class Animal {
   private name: string;
@@ -126,7 +130,25 @@ dog.move(10);
 ```
 
 ## 泛型 (Generics)
+
+不用泛型，函数可能这样定义：
+
+```typescript
+function identity(arg: number): number {
+    return arg;
+}
+
+// 或者，使用 any 类型来定义函数
+function identity(arg: any): any {
+    return arg;
+}
+
+```
+
+有了泛型，就这样定义
+
 ```TypeScript
+
 function identity<T>(arg: T): T {
   return arg;
 }
@@ -134,13 +156,21 @@ function identity<T>(arg: T): T {
 let output = identity<string>("Hello World"); // T 被推断为 string
 let output1 = identity<number>(42);
 
+```
+给函数 identity 添加了类型变量 `T`。 `T` 帮助我们捕获用户传入的类型（比如：number），之后我们就可以使用这个类型。 
+之后我们再次使用了 `T` 当做返回值类型。现在我们可以知道参数类型与返回值类型是相同的了。 这允许我们跟踪函数里使用的类型的信息。
+
+```TypeScript
 // 泛型接口
 interface GenericInterface<T> {
   value: T;
 }
 
 const genericObj: GenericInterface<number> = { value: 42 };
+```
 
+
+```TypeScript
 // 泛型类
 class GenericNumber<T> {
   zeroValue: T;
