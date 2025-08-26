@@ -70,7 +70,7 @@ function add(a: number, b: number): number {
 }
 
 // 可选参数和默认参数
-// 可选参数定义 在名字后面加一个 `?` 符号
+// 可选参数定义 ，在参数名后面加一个 `?` 符号
 function greet(name: string, age?: number): string {
   return `Hello, ${name}`;
 }
@@ -80,11 +80,12 @@ const multiply = (x: number, y: number): number => x * y;
 ```
 
 ##  接口 (Interface)
+
 ```TypeScript
 interface Person {
   name: string;
   age: number;
-  isStudent?: boolean; // 可选属性
+  isStudent?: boolean; // 可选属性，可选属性定义：在属性名后面加一个 `?` 符号
 }
 
 const john: Person = {
